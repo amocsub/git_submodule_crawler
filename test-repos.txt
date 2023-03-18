@@ -1,0 +1,4 @@
+https://github.com/google/skywater-pdk
+https://github.com/google/bloaty
+https://github.com/aws/Jobs-for-AWS-IoT-embedded-sdk
+https://github.com/aws/amazon-ecs-agent
