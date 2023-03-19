@@ -39,7 +39,7 @@ options:
 
 ### Fetching all the dependencies from the given repos and listing the path where they are pretended to be mounted.
 
-bash```
+````
 $ git_submodule_crawler.py --file test-repos.txt --format table
 # Repo https://github.com/google/skywater-pdk depends from submodules
 # Dep.lvl: 1 -> https://github.com/SymbiFlow/make-env - path: third_party/make-env
@@ -103,11 +103,11 @@ $ git_submodule_crawler.py --file test-repos.txt --format table
 # Repo https://github.com/aws/amazon-ecs-agent depends from submodules
 # Dep.lvl: 1 -> https://github.com/aws/amazon-ecs-cni-plugins - path: amazon-ecs-cni-plugins
 # Dep.lvl: 1 -> https://github.com/aws/amazon-vpc-cni-plugins - path: amazon-vpc-cni-plugins
-```
+````
 
 ### Fetching all of the repos and grouping the result by the ones without any dependency and so
 
-bash```
+```
 $ git_submodule_crawler.py --file test-repos.txt --format table --allDependenciesGroupedByLevel
 # This repositories have no dependencies
 # Dep.lvl: 2 -> https://github.com/SymbiFlow/make-env
