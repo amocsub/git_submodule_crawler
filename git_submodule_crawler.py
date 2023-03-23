@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from os import getenv
 import sys
 import requests
+from copy import deepcopy
 
 cache = {}
 
@@ -162,7 +163,7 @@ def fetch_repo_data(repo_owner, repo_name, github_host, github_token, call_level
         # In case we are looking for this repo in the cache but the level where we are is higher we update it
         if cache[f'{repo_owner}/{repo_name}']['level'] < call_level:
             cache[f'{repo_owner}/{repo_name}']['level'] = call_level
-        return cache[f'{repo_owner}/{repo_name}'].copy()
+        return deepcopy(cache[f'{repo_owner}/{repo_name}'])
     # If we do not find the repo we need to seach it through the API
     else:
         repo_data = fetch_repo_through_api(
@@ -189,7 +190,7 @@ def fetch_repo_data(repo_owner, repo_name, github_host, github_token, call_level
                         "level": call_level+1
                     }
                     if f"{module_owner}/{module_name}" not in cache:
-                        cache[f'{module_owner}/{module_name}'] = module.copy()
+                        cache[f'{module_owner}/{module_name}'] = deepcopy(module)
                 else:
                     # We call recursively the function for all the gitmodules a module may have
                     module = fetch_repo_data(
@@ -199,7 +200,7 @@ def fetch_repo_data(repo_owner, repo_name, github_host, github_token, call_level
                 if "gitmodules" in module:
                     for sub_module in module['gitmodules']:
                         if sub_module["nameWithOwner"] not in [m["nameWithOwner"] for m in repo_data['gitmodules']]:
-                            submodule_copy = sub_module.copy()
+                            submodule_copy = deepcopy(sub_module)
                             submodule_copy['path'] = f"{gitmodule['path']}/{submodule_copy['path']}"
                             repo_data['gitmodules'].append(submodule_copy)
             repo_data['gitmodules'] = sorted(
@@ -208,7 +209,7 @@ def fetch_repo_data(repo_owner, repo_name, github_host, github_token, call_level
         repo_data['path'] = ""
         repo_data['level'] = call_level
         if repo_data['nameWithOwner'] not in cache:
-            cache[f'{repo_owner}/{repo_name}'] = repo_data.copy()
+            cache[f'{repo_owner}/{repo_name}'] = deepcopy(repo_data)
         return repo_data
 
 
